@@ -1,10 +1,94 @@
+:root {
+  --darker-blue: rgb(3, 0, 42);
+  --dark-blue: rgb(5, 0, 86);
+  --light-blue: rgb(81, 127, 242);
+}
 body {
-  background: rgb(81, 127, 242);
-  color: rgb(5, 0, 86);
+  background: var(--darker-blue);
+  color: var(--dark-blue);
 }
 
 main {
   width: 80%;
   margin: auto;
   text-align: center;
+}
+
+.start-block,
+.form-block,
+.submit-block {
+  padding: 20px;
+  margin: 25px 0;
+  width: 100%;
+  border-radius: 10px;
+  background: var(--light-blue);
+}
+
+.start-block {
+  margin-bottom: 50px;
+}
+
+.start-block h1 {
+  margin-block-start: 0;
+}
+
+.warning-desc {
+  color: rgb(190, 20, 30);
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+.upload-region {
+  width: 50%;
+  margin: auto;
+  height: 200px;
+  border: 1px dashed var(--dark-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+.upload-text {
+  padding: 20px 10px;
+}
+
+.upload-box {
+  // idk why this is different but idc
+  font-size: 17px;
+}
+
+.options {
+  margin-top: 30px;
+}
+
+.option-checkbox {
+  margin: 0 25%;
+  text-align: left;
+  font-size: 20px;
+}
+
+.submit-block {
+  width: 70%;
+  margin: auto;
+  background: var(--dark-blue);
+  border: 2px solid var(--light-blue);
+}
+
+.submit {
+}
+
+.submit-button {
+  padding: 10px 100px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid var(--dark-blue);
+  background: var(--light-blue);
+  font-size: 30px;
+}
+
+.submit-button:not(:disabled) {
+  cursor: pointer;
 }

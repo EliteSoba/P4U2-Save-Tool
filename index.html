@@ -5,10 +5,49 @@
 </head>
 <body>
   <main>
-    <h1>P4U2 Save Tool</h1>
-    <div class="desc">
-      A simple tool where you can upload your P4U2 Steam save data and it'll return a copy with a lot unlocked
+    <div class="start-block">
+      <h1>P4U2 Save Tool</h1>
+      <div class="desc">
+        A simple tool where you can upload your P4U2 Steam save data and it'll return a copy with a lot unlocked
+      </div>
+      <div class="warning-desc">
+        Warning: I haven't tested this across a bunch of accounts and saves (because I only have one account) so I can't guarantee that this works for everyone.
+      </div>
+      <div class="warning-desc">
+        You should back up your save.dat file before trying this tool.
+      </div>
     </div>
+    <form id="data-form">
+      <div class="form-block">
+        <div class="upload-region" id="upload-region">
+          <div class="upload-text">
+            Drop save.dat file here or
+          </div>
+          <input class="upload-box" type="file" id="file-input" accept=".dat">
+        </div>
+        <div class="options">
+          <div class="option-checkbox">
+            <input id="unlock-titles" type="checkbox" checked="true">
+            <label for="unlock-titles">Unlock all titles</label>
+          </div>
+          <div class="option-checkbox">
+            <input id="unlock-icons" type="checkbox" checked="true">
+            <label for="unlock-icons">Unlock all icons</label>
+          </div>
+          <div class="option-checkbox">
+            <input id="max-money" type="checkbox" checked="true">
+            <label for="max-money">9,999,999 P$</label>
+          </div>
+        </div>
+      </div>
+      <div class="submit-block">
+        <div class="submit">
+          <input id="submit-button" class="submit-button" type="submit" value="Confirm" disabled>
+        </div>
+      </div>
+    </form>
   </main>
 </body>
+<script src="js/business.js"></script>
+<script src="js/main.js"></script>
 </html>
