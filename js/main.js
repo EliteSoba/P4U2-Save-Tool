@@ -4,9 +4,14 @@
   var fileData = null;
   var fileInput = document.getElementById('file-input');
 
-  var enableSubmit = function() {
+  var changeSubmittability = function(submittable) {
     var submitButton = document.getElementById('submit-button');
-    submitButton.removeAttribute('disabled');
+    if (submittable) {
+      submitButton.removeAttribute('disabled');
+    }
+    else {
+      submitButton.setAttribute('disabled', true);
+    }
   }
 
   var dragListener = function(e) {
@@ -32,7 +37,7 @@
     dT.items.add(fileData);
     fileInput.files = dT.files;
 
-    enableSubmit();
+    changeSubmittability(true);
   }
 
   var addDropListener = function() {
@@ -44,7 +49,7 @@
   var fileChangeListener = function(e) {
     if (fileInput.files[0]) {
       fileData = fileInput.files[0];
-      enableSubmit();
+      changeSubmittability(true);
     }
   }
 
@@ -57,16 +62,28 @@
     e.preventDefault();
     e.stopPropagation();
 
+    if (!fileData) {
+      // Safety
+      changeSubmittability(false);
+      return;
+    }
+
     var allTitles = document.getElementById('unlock-titles').checked;
     var allIcons = document.getElementById('unlock-icons').checked;
     var maxMoney = document.getElementById('max-money').checked;
 
-    business.doLogic({
-      fileData: fileData,
-      allTitles: allTitles,
-      allIcons: allIcons,
-      maxMoney: maxMoney
-    });
+    changeSubmittability(false);
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(fileData);
+    reader.onloadend = function() {
+      business.doLogic({
+        fileData: new Uint8Array(reader.result),
+        allTitles: allTitles,
+        allIcons: allIcons,
+        maxMoney: maxMoney
+      });
+      changeSubmittability(true);
+    }
   }
 
   var addSubmitHandler = function() {
