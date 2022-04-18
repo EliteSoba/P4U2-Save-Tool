@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head><head>
+<body id="newText" style="white-space: pre-wrap">
+<p id="paragraph"></p>
+
+<script>
+
+function ReplaceText(){
+
+const str = document.getElementById("textFromUser").value;
+
+const regex = [
+/(?<![\]\#\"\%\{{clr|1|\}}])(\bd\.A+\b|\bd\.[0-9]+A+\b|\bj\.A+\b|\bj\.[0-9]+A+\b(?!})|\[[0-9]+\][0-9]+A\b(?!})|\b[0-9]+\[A\](?!})|[0-9]+A+\b(?!})|A+\b(?=\+)|\b(?<=[\`\~\/])A\b(?!\")|\b(?<=[\+\'\~])\bA+\b(?!\"))(?!\.[A-z]+)(?!\")/gm ,
+/(?<![\]\#\"\%\{{clr|2|\}}])(\bd\.B+\b|\bd\.[0-9]+B+\b|\bj\.B+\b|\bj\.[0-9]+B+\b(?!})|\[[0-9]+\][0-9]+B\b(?!})|\b[0-9]+B+\b(?!})|\b[0-9]+\[B\](?!})|\b(?<=[\+\'\~\/])\bB+\b(?!\"))(?!\.[A-z])(?!\")/gm ,
+/(?<![\]\#\"\%\{{clr|3|\}}])(\bd\.C+\b|\bd\.[0-9]+C+\b|\bj\.C+\b|\bj\.[0-9]+C+\b(?!})|\[[0-9]+\][0-9]+C\b(?!})|\b[0-9]+C+\b(?!})|\b[0-9]+\[C\](?!})|\b(?<=[\+\'\~\/])\bC+\b(?!\"))(?!\.[A-z])(?!\")/gm ,
+/(?<![\]\#\"\%\{{clr|4|\}}])(\bd\.D+\b|\bd\.[0-9]+D+\b|\bj\.D+\b|\bj\.[0-9]+D+\b(?!})|\[[0-9]+\][0-9]+D\b(?!})|\b[0-9]+D+\b(?!})|\b[0-9]+\[D\](?!})|\b(?<=[\+\'\~\/])\bD+\b(?!\"))(?!\.[A-z])(?!\")/gm ,
+/(?<![\]\#\"\%\{{clr|5|\}}])(\bd\.P+\b|\bd\.[0-9]+P+\b|\bj\.P+\b|\bj\.[0-9]+P+\b(?!})|\[[0-9]+\][0-9]+P\b(?!})|\b[0-9]+P+\b(?!})|\b[0-9]+\[P\](?!})|\b(?<=[\+\'\~\/])\bP+\b(?!\"))(?!\.[A-z])(?!\")/gm ,
+];
+
+const subst = [
+`{{clr|1|$1}}` ,
+`{{clr|2|$1}}` ,
+`{{clr|3|$1}}` ,
+`{{clr|4|$1}}` ,
+`{{clr|5|$1}}`
+];
+
+
+var result=str;
+
+
+for (i = 0; i < regex.length; i++) {
+    result = result.replace(regex[i], subst[i]);
+    console.log("Complete");
+}
+
+
+console.log('Substitution result: ', result);
+
+
+navigator.clipboard.writeText(result);
+}
+</script>
+<form>
+<h1>Copy and paste the text in here, click "Convert Text",
+and the color coded text will automatically be saved
+to your clipboard. Just paste it over the non-colored
+text and save changes.</h1>
+<p>Text: </p><textarea id="textFromUser" style="white-space: pre-wrap"></textarea>
+<button type="button" onclick="ReplaceText()">Convert Text</button>
+</body>
+</html>
