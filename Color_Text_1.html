@@ -53,8 +53,12 @@
 
     .preview-text {
       display: inline-block;
-      border: 1px solid black;
+      border: 1px solid #202122;
       border-radius: 2px;
+    }
+
+    .dark-mode .preview-text {
+      border-color: rgb(232, 230, 227);
     }
 
     .change-mode {
@@ -97,7 +101,7 @@
   </style>
 <head>
 <body id="newText" class="" style="white-space: pre-wrap">
-<h1>Dustloop Color Text Changer</h1>
+<h1>Dustloop Color Text Converter</h1>
 <button class="change-mode" id="changeMode" onClick="changeMode()">
 </button>
 <form>
@@ -105,7 +109,7 @@
 and the color coded text will automatically be saved
 to your clipboard. Just paste it over the non-colored
 text and save changes.</h2>
-Note: I'm not the owner of this file. I just copied it from the Dustloop Update Discord people and put it some place online so people don't have to download an html file
+Note: This is like 99% the work of the Dustloop Update Discord people. I'm just hosting this on a github site and added some prettiness.
 <div class="logic-area">
   <div class="work">
     <h3>Input</h3>
