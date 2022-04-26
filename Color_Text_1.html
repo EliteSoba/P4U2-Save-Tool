@@ -1,14 +1,169 @@
 <!DOCTYPE html>
 <html>
-<head><head>
-<body id="newText" style="white-space: pre-wrap">
-<p id="paragraph"></p>
+<head>
+  <title>Dustloop Color Text Generator</title>
+  <style>
+    body {
+      background: #f6f6f6;
+      color: #202122;
+    }
+
+    body.dark-mode {
+      background: rgb(29, 32, 33);
+      color: rgb(232, 230, 227);
+    }
+    .text-area {
+      width: 400px;
+      height: 300px;
+    }
+
+    h3 {
+      text-align: center;
+    }
+
+    .the-button {
+      padding: 5px 10px;
+      margin-top: 15px;
+    }
+
+    .logic-area {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .input-1 {
+      color: #d96aca;
+    }
+
+    .input-2 {
+      color: #1f8ccc;
+    }
+
+    .input-3 {
+      color: #009e4e;
+    }
+
+    .input-4 {
+      color: #de1616;
+    }
+
+    .input-5 {
+      color: #e8982c;
+    }
+
+    .preview-text {
+      display: inline-block;
+      border: 1px solid black;
+      border-radius: 2px;
+    }
+
+    .change-mode {
+      width: 100px;
+      padding: 7px;
+    }
+
+    .copied-modal-background {
+      position: absolute;
+      z-index: 1;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: 2s;
+    }
+
+    .copied-modal-background.appear {
+      opacity: 1;
+      transition: none;
+    }
+
+    .copied-modal {
+      width: 300px;
+      height: 100px;
+      background: #f6f6f6;
+      color: #202122;
+      border-radius: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 36px;
+    }
+  </style>
+<head>
+<body id="newText" class="" style="white-space: pre-wrap">
+<h1>Dustloop Color Text Changer</h1>
+<button class="change-mode" id="changeMode" onClick="changeMode()">
+</button>
+<form>
+<h2>Copy and paste the text in here, click "Convert Text",
+and the color coded text will automatically be saved
+to your clipboard. Just paste it over the non-colored
+text and save changes.</h2>
+Note: I'm not the owner of this file. I just copied it from the Dustloop Update Discord people and put it some place online so people don't have to download an html file
+<div class="logic-area">
+  <div class="work">
+    <h3>Input</h3>
+    <div style="position: relative; display: inline-flex">
+      <textarea class="text-area" id="textFromUser" style="white-space: pre-wrap"></textarea>
+      <div id="modal" class="copied-modal-background">
+        <div class="copied-modal">
+          <span>Text Copied!</span>
+        </div>
+      </div>
+    </div>
+    <button class="the-button" type="button" onclick="ReplaceText()">Convert Text</button>
+  </div>
+  <div class="output">
+    <h3>Output</h3>
+    <textarea class="text-area" id="output" disabled></textarea>
+  </div>
+  <div class="preview">
+    <h3>Preview</h3>
+    <div class="text-area preview-text" id="preview">
+    </div>
+  </div>
+</div>
+</body>
 
 <script>
 
-function ReplaceText(){
+function readDarkMode() {
+  return JSON.parse(localStorage.getItem("darkmode"));
+  //return document.cookie.darkmode;
+}
 
-const str = document.getElementById("textFromUser").value;
+function writeDarkMode(isDarkMode) {
+  localStorage.setItem("darkmode", isDarkMode);
+  //document.cookie = `darkmode=${isDarkMode};`;
+}
+
+function updateMode(isDarkMode) {
+  writeDarkMode(isDarkMode);
+  document.getElementById('changeMode').innerHTML = isDarkMode ? 'Light Mode' : 'Dark Mode';
+  if (isDarkMode) {
+    document.body.classList.add('dark-mode');
+  }
+  else {
+    document.body.classList.remove('dark-mode');
+  }
+}
+
+let isDarkMode = readDarkMode();
+if (!isDarkMode) {
+  isDarkMode = false;
+}
+updateMode(isDarkMode);
+
+function changeMode() {
+  isDarkMode = !isDarkMode;
+  updateMode(isDarkMode);
+}
 
 const regex = [
 /(?<![\]\#\"\%\{{clr|1|\}}])(\bd\.A+\b|\bd\.[0-9]+A+\b|\bj\.A+\b|\bj\.[0-9]+A+\b(?!})|\[[0-9]+\][0-9]+A\b(?!})|\b[0-9]+\[A\](?!})|[0-9]+A+\b(?!})|A+\b(?=\+)|\b(?<=[\`\~\/])A\b(?!\")|\b(?<=[\+\'\~])\bA+\b(?!\"))(?!\.[A-z]+)(?!\")/gm ,
@@ -26,29 +181,31 @@ const subst = [
 `{{clr|5|$1}}`
 ];
 
+const htmls = [
+  `<span class='input-1'>$1</span>`,
+  `<span class='input-2'>$1</span>`,
+  `<span class='input-3'>$1</span>`,
+  `<span class='input-4'>$1</span>`,
+  `<span class='input-5'>$1</span>`,
+]
 
-var result=str;
+function ReplaceText() {
+  let str = document.getElementById("textFromUser").value;
+  let result = str;
+  let preview = str;
 
-
-for (i = 0; i < regex.length; i++) {
+  for (i = 0; i < regex.length; i++) {
     result = result.replace(regex[i], subst[i]);
-    console.log("Complete");
-}
+    preview = preview.replace(regex[i], htmls[i]);
+  }
 
+  document.getElementById('output').innerHTML = result;
+  document.getElementById('preview').innerHTML = preview;
+  navigator.clipboard.writeText(result);
+  const modal = document.getElementById('modal');
 
-console.log('Substitution result: ', result);
-
-
-navigator.clipboard.writeText(result);
+  modal.classList.add('appear');
+  setTimeout(() => modal.classList.remove('appear'), 1);
 }
 </script>
-<form>
-<h1>Copy and paste the text in here, click "Convert Text",
-and the color coded text will automatically be saved
-to your clipboard. Just paste it over the non-colored
-text and save changes.</h1>
-Note: I'm not the owner of this file. I just copied it from the Dustloop Update Discord people and put it some place online so people don't have to download an html file
-<p>Text: </p><textarea id="textFromUser" style="white-space: pre-wrap"></textarea>
-<button type="button" onclick="ReplaceText()">Convert Text</button>
-</body>
 </html>
